@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block h1 %} Tag erfassen {% endblock %}
+{% load static %}
+{% block scripthead %}<script src="{% static 'tag-javascript.js' %}"></script>{% endblock %}
+{% block body %}
+
+<center>
+    <select id="projectselect">
+      {% for project in projects %}
+        <option value="{{ project.id }}">{{ project.name }}</option>
+      {% endfor %}
+    </select>
+    
+  <select id="workpackageselect">
+      <option value=""></option>
+  </select>
+
+  <select id="subjectselect">
+        <option value=""></option>
+  </select>
+
+  <form action="" method="post">
+      <input type="text", id="formdata", placeholder="Bitte Tag eingeben">
+      <button type="submit", id="submitbutton">Submit</button>
+  </form>
+  <button id="testbutton"> Test </button>
+</center>
+
+{% endblock %}

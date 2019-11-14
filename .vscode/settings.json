@@ -1,0 +1,4 @@
+{
+    "python.pythonPath": "djvenv\\Scripts\\python.exe",
+    "python.linting.pylintArgs": ["--load-plugins", "pylint_django"]
+}
