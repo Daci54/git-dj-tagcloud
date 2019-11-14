@@ -3,5 +3,6 @@ from .import views
 
 urlpatterns = [
     path("", views.index, name="index"),
-    path("optionsselect", views.optionsselect, name="optionsselect")
+    path("projectselect", views.projectselect, name="projectselect"),
+    path("wpselect", views.wpselect, name="wpselect")
 ]
