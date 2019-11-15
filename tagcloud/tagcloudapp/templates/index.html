@@ -11,20 +11,19 @@
         <option value="{{ project.id }}">{{ project.name }}</option>
       {% endfor %}
     </select>
-    
+
   <select id="workpackageselect">
-      <option value=""></option>
+      <option value="">Select</option>
   </select>
 
   <select id="subjectselect">
-        <option value=""></option>
+        <option value="">Select</option>
   </select>
 
   <form action="" method="post">
       <input type="text", id="formdata", placeholder="Bitte Tag eingeben">
       <button type="submit", id="submitbutton">Submit</button>
   </form>
-  <button id="testbutton"> Test </button>
 </center>
 
 {% endblock %}
