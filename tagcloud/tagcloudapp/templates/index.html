@@ -2,7 +2,11 @@
 
 {% block h1 %} Tag erfassen {% endblock %}
 {% load static %}
-{% block scripthead %}<script src="{% static 'tag-javascript.js' %}"></script>{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'tagify.css' %}">
+<script src="{% static 'tag-javascript.js' %}"></script>
+<script src="{% static 'tagify.min.js' %}"></script>
+{% endblock %}
 {% block body %}
 
 <center>
