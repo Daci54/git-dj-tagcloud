@@ -1,0 +1,11 @@
+body {
+    background-color: #ffff;
+}
+
+.mx-auto {
+    margin-top: 300px;
+}
+
+.selectdiv {
+    font-weight: bold;
+}

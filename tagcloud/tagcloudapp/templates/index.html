@@ -1,9 +1,7 @@
 {% extends "base.html" %}
 
-{% block h1 %} Tag erfassen {% endblock %}
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'tagify.css' %}">
 <script src="{% static 'tag-javascript.js' %}"></script>
 <script
   src="https://code.jquery.com/jquery-3.4.1.js"
@@ -11,32 +9,61 @@
   crossorigin="anonymous">
 </script>
 <script src="{% static 'tagify.min.js' %}"></script>
+<link rel="stylesheet" href="{% static 'tagify.css' %}">
 {% endblock %}
 {% block body %}
 
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Tagcloud im Projektmanagement</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link active" href="#">Tags erfassen <span class="sr-only">(current)</span></a>
+      <a class="nav-item nav-link" href="#">Tags auswerten</a>
+    </div>
+  </div>
+</nav>
 
-<center>
-    <select id="projectselect">
-      {% for project in projects %}
-        <option value="{{ project.id }}">{{ project.name }}</option>
-      {% endfor %}
-    </select>
-
-  <select id="workpackageselect">
-      <option value="">Select</option>
-  </select>
-
-  <select id="subjectselect">
-        <option value="">Select</option>
-  </select>
-
-  <form action="/test" method="post" id="tagform">
-  {% csrf_token %}
-      <input type="text", id="taginput", placeholder="Bitte Tag eingeben">
-  </form>
-
-  <button id="tagsubmit">Test</button>
-
-</center>
+<div class="container" name="containerdiv">
+  <div class="mx-auto" name="mx-auto">
+    <div class="text-center" name="text-center">
+      <h1 class="display-4">Tags erfassen</h1>
+        <div name="selectdiv" class="form-row">
+          <div name="projectdiv" class="form-group col-md-4">
+            <label for="projectselect" class="col-form-label-lg">Projekt</label>
+            <select class="form-control" id="projectselect">
+            {% for project in projects %}
+              <option value="{{ project.id }}">{{ project.name }}</option>
+            {% endfor %}
+            </select>
+          </div>
+          <div name="workpackagediv" class="form-group col-md-4">
+            <label for="workpackageselect" class="col-form-label-lg">Arbeitspaket</label>
+            <select class="form-control" id="workpackageselect">
+              <option value="">Select</option>
+            </select>
+          </div>
+          <div name="subjectdiv" class="form-group col-md-4">
+            <label for="subjectselect" class="col-form-label-lg">Thema</label>
+            <select class="form-control" id="subjectselect">
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+        <div name="inputdiv" class="form-row">
+          <div class="form-group col-md-12">
+            <input type="text" id="taginput" placeholder="Bitte Tag eingeben">
+          </div>
+        </div>
+        <div name="buttondiv" class="form-row">
+          <div class="form-group col">
+            <button class="btn btn-primary btn-lg" id="tagsubmit">Submit</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
 
 {% endblock %}

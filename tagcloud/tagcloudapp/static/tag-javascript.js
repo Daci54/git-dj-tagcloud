@@ -77,15 +77,13 @@ document.addEventListener('DOMContentLoaded', function() {
     }
 
     var taginput = document.getElementById('taginput');
-    var tagify = new Tagify(taginput, {
-        
-    })
+    var tagify = new Tagify(taginput);
 
     var tagsubmit = document.getElementById('tagsubmit');
 
     tagsubmit.onclick = () => {
         var val = tagify.value;
-        var selval = {"prid": projectselect.value, "wpid": wpsselect.value, "subid": subselect.value};
+        var selval = { "prid": projectselect.value, "wpid": wpsselect.value, "subid": subselect.value };
         if (projectselect.value == "select" || wpsselect.value == "select" || subselect.value == "select") {
             alert("Bitte wählen Sie alle Felder aus");
         } else if (Object.keys(val).length === 0) {
@@ -95,7 +93,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 type: "POST",
                 url: "/test",
                 contentType: "application/json; charset=utf-8",
-                data: JSON.stringify({"tags": val, "selectval": selval}),
+                data: JSON.stringify({ "tags": val, "selectval": selval }),
                 success: function(response) {
                     console.log(response);
                     return false;
