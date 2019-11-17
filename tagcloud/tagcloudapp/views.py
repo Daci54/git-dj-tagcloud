@@ -1,8 +1,8 @@
 import json
 from django.http import HttpResponse, JsonResponse
+from django.core.serializers import serialize
 from django.shortcuts import render
-from django.core import serializers
-from .models import Project, Workpackage, Subject
+from .models import Project, Workpackage, Subject, Tag
 
 # Create your views here.
 def index(request):
@@ -34,3 +34,11 @@ def wpselect(request):
         }
         sublist.append(subdict)
     return JsonResponse({'subs' : sublist})
+
+def test(request):
+    data = json.loads(request.body)
+    sub = Subject.objects.get(id=data['selectval']['subid'])
+    for x in data['tags']:
+        tag = Tag.objects.create(tagvalue=x['value'])
+        sub.tag.add(tag)
+    return JsonResponse({"Back to JS!": "Back to JS!"})

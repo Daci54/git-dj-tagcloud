@@ -5,9 +5,15 @@
 {% block head %}
 <link rel="stylesheet" href="{% static 'tagify.css' %}">
 <script src="{% static 'tag-javascript.js' %}"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
 <script src="{% static 'tagify.min.js' %}"></script>
 {% endblock %}
 {% block body %}
+
 
 <center>
     <select id="projectselect">
@@ -24,10 +30,13 @@
         <option value="">Select</option>
   </select>
 
-  <form action="" method="post">
-      <input type="text", id="formdata", placeholder="Bitte Tag eingeben">
-      <button type="submit", id="submitbutton">Submit</button>
+  <form action="/test" method="post" id="tagform">
+  {% csrf_token %}
+      <input type="text", id="taginput", placeholder="Bitte Tag eingeben">
   </form>
+
+  <button id="tagsubmit">Test</button>
+
 </center>
 
 {% endblock %}

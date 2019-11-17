@@ -27,8 +27,8 @@ class Workpackage(models.Model):
         return self.name
 
 class Tag(models.Model):
-    tagvalue = models.CharField(max_length=100)
-    tagsize = models.IntegerField(default=1)
+    tagvalue = models.CharField(max_length=100, null=True)
+    tagsize = models.IntegerField(default=1, null=True)
         
     class Meta:
         db_table = "tag"
@@ -47,7 +47,7 @@ class Subject(models.Model):
     start = models.DateTimeField(null=True, blank=True)
     end = models.DateTimeField(null=True, blank=True)
     workpackage = models.ForeignKey(Workpackage, on_delete=models.CASCADE, null=True)
-    tag = models.ManyToManyField(Tag)
+    tag = models.ManyToManyField(Tag, related_name='subjects')
      
     class Meta:
         db_table = "subject"
