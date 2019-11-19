@@ -76,11 +76,6 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
-    var taginput = document.getElementById('taginput');
-    var tagify = new Tagify(taginput);
-
-    var tagsubmit = document.getElementById('tagsubmit');
-
     tagsubmit.onclick = () => {
         var val = tagify.value;
         var selval = { "prid": projectselect.value, "wpid": wpsselect.value, "subid": subselect.value };
@@ -91,7 +86,7 @@ document.addEventListener('DOMContentLoaded', function() {
         } else {
             $.ajax({
                 type: "POST",
-                url: "/test",
+                url: "/tagsubmit",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({ "tags": val, "selectval": selval }),
                 success: function(response) {

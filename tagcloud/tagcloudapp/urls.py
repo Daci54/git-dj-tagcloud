@@ -6,8 +6,9 @@ urlpatterns = [
     path("", views.tagserfassen, name="tagserfassen"),
     path("projectselect", views.projectselect, name="projectselect"),
     path("wpselect", views.wpselect, name="wpselect"),
-    path("test", views.test, name="test"),
+    path("tagsubmit", views.tagsubmit, name="tagsubmit"),
 
     # tagsauswerten url and ajax requests
-    path("tagsauswerten", views.tagsauswerten, name="tagsauswerten")
+    path("tagcloud", views.tagcloudchart, name="tagcloudchart"),
+    path("test", views.test, name="test")
 ]
