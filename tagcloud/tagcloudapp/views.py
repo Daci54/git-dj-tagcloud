@@ -5,11 +5,11 @@ from django.shortcuts import render
 from .models import Project, Workpackage, Subject, Tag
 
 # Create your views here.
-def index(request):
+def tagserfassen(request):
     projects = {
         "projects": Project.objects.all()
     }
-    return render(request, "index.html", projects)
+    return render(request, "tagserfassen.html", projects)
 
 def projectselect(request):
     wplist = []
@@ -42,3 +42,6 @@ def test(request):
         tag = Tag.objects.create(tagvalue=x['value'])
         sub.tag.add(tag)
     return JsonResponse({"Back to JS!": "Back to JS!"})
+
+def tagsauswerten(request):
+    return render(request, "tagsauswerten.html")

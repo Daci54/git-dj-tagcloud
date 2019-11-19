@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block head %}
+
+<script src="{% static 'tag-javascript.js' %}"></script>
+<script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
+
+{% endblock %}
+
+{% block body %}
+
+<div class="container" name="containerdiv">
+  <div class="mx-auto" name="mx-auto">
+    <div class="text-center" name="text-center">
+      <h1 class="display-4">Tags auswerten</h1>
+      <div name="selectdiv" class="form-row">
+        <div name="projectdiv" class="form-group col-md-4">
+          <label for="projectselect" class="col-form-label-lg">Projekt</label>
+          <select class="form-control" id="projectselect">
+          {% for project in projects %}
+            <option value="{{ project.id }}">{{ project.name }}</option>
+          {% endfor %}
+          </select>
+        </div>
+        <div name="workpackagediv" class="form-group col-md-4">
+          <label for="workpackageselect" class="col-form-label-lg">Arbeitspaket</label>
+          <select class="form-control" id="workpackageselect">
+            <option value="">Select</option>
+          </select>
+        </div>
+        <div name="subjectdiv" class="form-group col-md-4">
+          <label for="subjectselect" class="col-form-label-lg">Thema</label>
+          <select class="form-control" id="subjectselect">
+            <option value="">Select</option>
+          </select>
+        </div>
+      </div>
+      <div name="auswertungdiv" class="form-row">
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

@@ -11,20 +11,36 @@
   <link rel="apple-touch-icon" sizes="180x180" href="{% static 'apple-touch-icon.png' %}">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static 'favicon-32x32.png' %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
-  <script src="{% static 'tagify.min.js' %}"></script>
-  <link rel="stylesheet" href="{% static 'tagify.css' %}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'tagcloud.css' %}">
-  {% block head %}{% endblock %}
+  <script src="{% static 'tag-javascript.js' %}"></script>
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+</script>
+  {% block head %}
+  {% endblock %}
 </head>
 
-<center>
-  <h1 class="heading1">{% block h1 %}{% endblock %}</h1>
-</center>
+<body>
 
-  {% block script %}{% endblock %}
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Tagcloud im Projektmanagement</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+    <div class="navbar-nav">
+      <a class="nav-item nav-link" href="{% url 'tagserfassen' %}">Tags erfassen</a>
+      <a class="nav-item nav-link" href="{% url 'tagsauswerten' %}">Tags auswerten</a>
+    </div>
+  </div>
+</nav>
 
-  {% block body %}{% endblock %}
+{% block body %}
+{% endblock %}
 
 </body>
+
 </html>

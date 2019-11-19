@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block head %}
+<script src="{% static 'tagify.js' %}"></script>
+<link rel="stylesheet" href="{% static 'tagify.css' %}">
+{% endblock %}
+{% block body %}
+
+<div class="container" name="containerdiv">
+  <div class="mx-auto" name="mx-auto">
+    <div class="text-center" name="text-center">
+      <h1 class="display-4">Tags erfassen</h1>
+        <div name="selectdiv" class="form-row">
+          <div name="projectdiv" class="form-group col-md-4">
+            <label for="projectselect" class="col-form-label-lg">Projekt</label>
+            <select class="form-control" id="projectselect">
+            {% for project in projects %}
+              <option value="{{ project.id }}">{{ project.name }}</option>
+            {% endfor %}
+            </select>
+          </div>
+          <div name="workpackagediv" class="form-group col-md-4">
+            <label for="workpackageselect" class="col-form-label-lg">Arbeitspaket</label>
+            <select class="form-control" id="workpackageselect">
+              <option value="">Select</option>
+            </select>
+          </div>
+          <div name="subjectdiv" class="form-group col-md-4">
+            <label for="subjectselect" class="col-form-label-lg">Thema</label>
+            <select class="form-control" id="subjectselect">
+              <option value="">Select</option>
+            </select>
+          </div>
+        </div>
+        <div name="inputdiv" class="form-row">
+          <div class="form-group col-md-12">
+            <input type="text" id="taginput" placeholder="Bitte Tag eingeben">
+          </div>
+        </div>
+        <div name="buttondiv" class="form-row">
+          <div class="form-group col">
+            <button class="btn btn-primary btn-lg" id="tagsubmit">Submit</button>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}
