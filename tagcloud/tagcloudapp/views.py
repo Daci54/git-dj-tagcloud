@@ -35,7 +35,7 @@ def wpselect(request):
         sublist.append(subdict)
     return JsonResponse({'subs' : sublist})
 
-def test(request):
+def tagsubmit(request):
     data = json.loads(request.body)
     sub = Subject.objects.get(id=data['selectval']['subid'])
     for x in data['tags']:
@@ -43,5 +43,21 @@ def test(request):
         sub.tag.add(tag)
     return JsonResponse({"Back to JS!": "Back to JS!"})
 
-def tagsauswerten(request):
-    return render(request, "tagsauswerten.html")
+def tagcloudchart(request):
+    projects = {
+        "projects": Project.objects.all()
+    }
+    return render(request, "tagcloudchart.html", projects)
+
+def test(request):
+    tcprlist = []
+    prid = json.loads(request.body)
+    tagsforpr = Tag.objects.filter(subjects__workpackage__project=prid['prid'])
+    for x in tagsforpr:
+        tagsdict = {
+            'id': x.id,
+            'tagvalue': x.tagvalue,
+            'tagsize': x.tagsize
+        }
+        tcprlist.append(tagsdict)
+    return JsonResponse ({'test': tcprlist})

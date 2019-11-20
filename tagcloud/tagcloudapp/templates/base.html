@@ -13,7 +13,7 @@
   <link rel="icon" type="image/png" sizes="16x16" href="{% static 'favicon-16x16.png' %}">
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
   <link rel="stylesheet" href="{% static 'tagcloud.css' %}">
-  <script src="{% static 'tag-javascript.js' %}"></script>
+  <script src="{% static 'filter.js' %}"></script>
   <script
   src="https://code.jquery.com/jquery-3.4.1.js"
   integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
@@ -33,7 +33,7 @@
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
       <a class="nav-item nav-link" href="{% url 'tagserfassen' %}">Tags erfassen</a>
-      <a class="nav-item nav-link" href="{% url 'tagsauswerten' %}">Tags auswerten</a>
+      <a class="nav-item nav-link" href="{% url 'tagcloudchart' %}">Tagcloud</a>
     </div>
   </div>
 </nav>

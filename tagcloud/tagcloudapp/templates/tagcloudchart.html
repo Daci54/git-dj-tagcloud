@@ -2,14 +2,7 @@
 
 {% load static %}
 {% block head %}
-
-<script src="{% static 'tag-javascript.js' %}"></script>
-<script
-  src="https://code.jquery.com/jquery-3.4.1.js"
-  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
-  crossorigin="anonymous">
-</script>
-
+<link rel="stylesheet" href="{% static 'tagcloudchart.css' %}">
 {% endblock %}
 
 {% block body %}
@@ -17,7 +10,7 @@
 <div class="container" name="containerdiv">
   <div class="mx-auto" name="mx-auto">
     <div class="text-center" name="text-center">
-      <h1 class="display-4">Tags auswerten</h1>
+      <h1 class="display-4">Tagcloud</h1>
       <div name="selectdiv" class="form-row">
         <div name="projectdiv" class="form-group col-md-4">
           <label for="projectselect" class="col-form-label-lg">Projekt</label>
@@ -40,11 +33,14 @@
           </select>
         </div>
       </div>
-      <div name="auswertungdiv" class="form-row">
-        
+      <div id="chartdiv" name="auswertungdiv" class="col-md-12">
       </div>
     </div>
   </div>
 </div>
-
+<script src="{% static '/amcharts4/core/core.js' %}"></script>
+<script src="{% static '/amcharts4/charts/charts.js' %}"></script>
+<script src="{% static '/amcharts4/themes/animated.js' %}"></script>
+<script src="{% static '/amcharts4/plugins/wordCloud.js' %}"></script>
+<script src="{% static 'tagcloudchart.js' %}"></script>
 {% endblock %}
