@@ -44,7 +44,20 @@ def tagsubmit(request):
     return JsonResponse({"Back to JS!": "Back to JS!"})
 
 def tagcloudchart(request):
-    return render(request, "tagcloudchart.html")
+    projects = {
+        "projects": Project.objects.all()
+    }
+    return render(request, "tagcloudchart.html", projects)
 
 def test(request):
-    return render (request, "test.html")
+    tcprlist = []
+    prid = json.loads(request.body)
+    tagsforpr = Tag.objects.filter(subjects__workpackage__project=prid['prid'])
+    for x in tagsforpr:
+        tagsdict = {
+            'id': x.id,
+            'tagvalue': x.tagvalue,
+            'tagsize': x.tagsize
+        }
+        tcprlist.append(tagsdict)
+    return JsonResponse ({'test': tcprlist})
