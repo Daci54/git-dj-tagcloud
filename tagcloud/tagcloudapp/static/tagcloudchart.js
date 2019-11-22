@@ -14,7 +14,8 @@ let testdata = [{
     "count": "1"
 }];
 
-series.data = testdata;
+series.data = window.tags;
+console.log(window.tags);
 
 series.dataFields.word = "tag";
 series.dataFields.value = "count";
