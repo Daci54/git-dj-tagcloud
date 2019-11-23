@@ -1,4 +1,5 @@
 from django.urls import path
+from django.views.generic import RedirectView
 from .import views
 
 urlpatterns = [
@@ -10,5 +11,5 @@ urlpatterns = [
 
     # tagsauswerten url and ajax requests
     path("tagcloud", views.tagcloudchart, name="tagcloudchart"),
-    path("test", views.test, name="test")
+    path("tagquery", views.tagquery, name="tagquery")
 ]

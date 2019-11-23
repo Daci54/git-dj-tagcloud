@@ -49,15 +49,20 @@ def tagcloudchart(request):
     }
     return render(request, "tagcloudchart.html", projects)
 
-def test(request):
-    tcprlist = []
-    prid = json.loads(request.body)
-    tagsforpr = Tag.objects.filter(subjects__workpackage__project=prid['prid'])
-    for x in tagsforpr:
+def tagquery(request):
+    tclist = []
+    id = json.loads(request.body)
+    if ('prid' in id):
+        tags = Tag.objects.filter(subjects__workpackage__project=id['prid'])
+    elif ('wpid' in id):
+        tags = Tag.objects.filter(subjects__workpackage=id['wpid'])
+    else:
+        tags = Tag.objects.filter(subjects=id['subid'])
+    for tag in tags:
         tagsdict = {
-            'id': x.id,
-            'tagvalue': x.tagvalue,
-            'tagsize': x.tagsize
+            'id': tag.id,
+            'tagvalue': tag.tagvalue,
+            'tagsize': tag.tagsize
         }
-        tcprlist.append(tagsdict)
-    return JsonResponse ({'test': tcprlist})
+        tclist.append(tagsdict)
+    return JsonResponse ({'tags': tclist})
