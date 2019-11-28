@@ -1,4 +1,6 @@
 let input = document.getElementById('taginput');
+let tagsubmit = document.getElementById('tagsubmit');
+
 let tagify = new Tagify(taginput, {
     whitelist: [],
     dropdown : {
@@ -14,14 +16,12 @@ function onInput( e ){
   tagify.settings.whitelist.length = 0; // reset the whitelist
 
   let taginput = {'taginput': value};
-  tagcloud(JSON.stringify(taginput))
+  generalAJAX(JSON.stringify(taginput), "tagquery")
   .then((data) => {
       tagify.settings.whitelist = data.tags;
       tagify.dropdown.show.call(tagify, value);
   })
 }
-
-let tagsubmit = document.getElementById('tagsubmit');
 
 tagsubmit.onclick = () => {
     let val = tagify.value;
@@ -31,25 +31,44 @@ tagsubmit.onclick = () => {
     } else if (Object.keys(val).length === 0) {
         alert("Bitte geben Sie einen Tag ein");
     } else {
-        $.ajax({
-            type: "POST",
-            url: "/tagtest",
-            data: JSON.stringify({ "tags": val, "subid": subid }),
-            success: function(response) {
-                console.log(response);
-                // return false;
-            },
-            error: function(response) {
-                console.log(response, "not successful");
-                // return false;
-            }
-        });
+        generalAJAX(JSON.stringify({ "tags": val, "subid": subid }), "tagsubmit")
+        .then((data) => {
+            console.log(data);
+            projectselect.selectedIndex = 0;
+            resetWPandSub();
+            tagify.removeAllTags();
+            successToast();
+        })
+        .catch((data) => {
+            console.log(data);
+            projectselect.selectedIndex = 0;
+            resetWPandSub();
+            tagify.removeAllTags();
+            errorToast();
+        })
     }
 }
 
-let testbutton = document.getElementById('testbutton');
+function successToast() {
+    Swal.fire({
+        toast: false,
+        title: 'Vielen Dank!',
+        text: 'Ihre Daten wurden erfolgreich gespeichert',
+        icon: 'success',
+        timer: '3500',
+        timerProgressBar: false,
+        showConfirmButton: false
+        })
+}
 
-testbutton.onclick = () => {
-    let testval = tagify.value;
-    console.log(testval);
+function errorToast() {
+    Swal.fire({
+        toast: false,
+        title: 'Scheisse',
+        text: 'Etwas ist schief gelaufen.',
+        icon: 'error',
+        timer: '3500',
+        timerProgressBar: false,
+        showConfirmButton: false
+        })
 }

@@ -11,11 +11,15 @@ $.ajaxSetup({
     }
 });
 
-function wpforpr() {
+function resetWPandSub() {
     wpsselect.options.length = 0;
     wpsselect.options[0] = new Option("Select", "select", true, true);
     subselect.options.length = 0;
     subselect.options[0] = new Option("Select", "select", true, true);
+}
+
+function wpforpr() {
+    resetWPandSub();
     var projectid = projectselect.value;
     let prdata = { "prid": projectid }
     let prjson = JSON.stringify(prdata);
@@ -27,32 +31,32 @@ function wpforpr() {
             url: "/projectselect",
             data: prjson
         })
-        .done((data) => {
-            for (let wp of data.wps) {
+        .done((response) => {
+            for (let wp of response.wps) {
                 var op = document.createElement("option");
                 op.textContent = wp.name;
                 op.value = wp.id;
                 wpsselect.append(op);
             }
         })
-        .fail((data) => {
-            console.log(data);
+        .fail((response) => {
+            console.log(response);
             console.error("POST request not successful");
         })
     }
     return prjson;
 }
 
-function tagcloud(postdata) {
+function generalAJAX(postdata, url) {
 return $.ajax({
         type: "POST",
-        url: "/tagquery",
+        url: url,
         data: postdata
     })
-    .done((data) => {
+    .done((response) => {
     })
-    .fail((data) => {
-        console.log(data);
+    .fail((response) => {
+        console.log(response);
         console.error("POST request not successful");
     })
 }
@@ -71,16 +75,16 @@ function subforwp() {
             url: "/wpselect",
             data: wpjson
         })
-        .done((data) => {
-            for (let sub of data.subs) {
+        .done((response) => {
+            for (let sub of response.subs) {
                 var op = document.createElement("option");
                 op.textContent = sub.name;
                 op.value = sub.id;
                 subselect.append(op);
             }
         })
-        .fail((data) => {
-            console.log(data);
+        .fail((response) => {
+            console.log(response);
         })
     }
     return wpjson;
@@ -93,9 +97,9 @@ projectselect.onchange = () => {
         break;
     case (window.location.href.indexOf("tagcloud") > -1):
         let prid = wpforpr();
-        tagcloud(prid)
-        .then((data) => {
-            tagreplacer(data.tags);
+        generalAJAX(prid, "tagquery")
+        .then((response) => {
+            tagreplacer(response.tags);
         });
         break;
     }
@@ -107,9 +111,9 @@ workpackageselect.onchange = () => {
         break;
     case (window.location.href.indexOf("tagcloud") > -1):
         let wpid = subforwp();
-        tagcloud(wpid)
-        .then((data) => {
-            tagreplacer(data.tags);
+        generalAJAX(wpid, "tagquery")
+        .then((response) => {
+            tagreplacer(response.tags);
         });
         break;
     }
@@ -126,9 +130,9 @@ subselect.onchange = () => {
         if (subid == "select") {
 
         } else {
-        tagcloud(subjson)
-        .then((data) => {
-            tagreplacer(data.tags);
+        generalAJAX(subjson, "tagquery")
+        .then((response) => {
+            tagreplacer(response.tags);
         });
         }
     break;

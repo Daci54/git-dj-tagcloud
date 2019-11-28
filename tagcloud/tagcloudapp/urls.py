@@ -11,6 +11,5 @@ urlpatterns = [
 
     # tagsauswerten url and ajax requests
     path("tagcloud", views.tagcloudchart, name="tagcloudchart"),
-    path("tagquery", views.tagquery, name="tagquery"),
-    path("tagtest", views.tagtest, name="tagtest")
+    path("tagquery", views.tagquery, name="tagquery")
 ]

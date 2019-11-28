@@ -26,7 +26,7 @@ series.colors = new am4core.ColorSet();
 //     am4core.color("#F9F871"),
 //   ];
 
-series.dataFields.word = "tagvalue";
+series.dataFields.word = "value";
 series.dataFields.value = "tagsize";
 
 

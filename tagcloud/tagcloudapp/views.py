@@ -1,4 +1,5 @@
 import json
+from django.db.models import F
 from django.http import HttpResponse, JsonResponse
 from django.core.serializers import serialize
 from django.shortcuts import render
@@ -42,19 +43,12 @@ def tagsubmit(request):
     data = json.loads(request.body)
     sub = Subject.objects.get(id=data['subid'])
     for x in data['tags']:
-        tag = Tag.objects.create(tagvalue=x['value'])
-        sub.tag.add(tag)
-    return JsonResponse({"Back to JS!": "Back to JS!"})
-
-def tagtest(request):
-    data = json.loads(request.body)
-    print(data)
-    sub = Subject.objects.get(id=data['subid'])
-    if 'id' in data['tags'].keys(): 
-        print("Present, ", end =" ") 
-        print("value =", data['tags']['id']) 
-    else: 
-        print("Not present") 
+        if 'id' in x:
+            Tag.objects.filter(id=x['id']).update(tagsize=F('tagsize')+1)
+        else: 
+            tag = Tag.objects.create(tagvalue=x['value'])
+            sub.tag.add(tag)
+    return HttpResponse("Submit Successful")
 
 def tagcloudchart(request):
     return render(request, "tagcloudchart.html", queryProject())
