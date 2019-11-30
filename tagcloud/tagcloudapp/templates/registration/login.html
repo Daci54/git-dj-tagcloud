@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <title>Tag Cloud im Projektmanagement</title>
+  <meta name="description" content="Tag Cloud im Projektmanagement">
+  <meta name="author" content="Dalibor Stojkovic">
+  {% load static %}
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static 'images/apple-touch-icon.png' %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static 'images/favicon-32x32.png' %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static 'images/favicon-16x16.png' %}">
+  <link rel="icon" type="image/png" href="{% static 'images/favicon.ico' %}">
+  <link
+  rel="stylesheet"
+  href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+  integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T"
+  crossorigin="anonymous">
+  <link rel="stylesheet" href="{% static 'login.css' %}">
+  <script
+  src="https://code.jquery.com/jquery-3.4.1.js"
+  integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+  crossorigin="anonymous">
+  </script>
+  <script
+  src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+  integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+  crossorigin="anonymous">
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+</head>
+
+<body>
+
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Tagcloud im Projektmanagement</a>
+</nav>
+
+<div class="simple-login-container">
+    <h2>Login Form</h2>
+<form method="POST" id="loginform" action="/test">
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <input type="text" class="form-control" placeholder="Username" id="username" name="username" autocomplete="off"/>
+                <div class="valid-feedback">
+                    Looks good!
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <input type="password" placeholder="Passwort" class="form-control" id="password" name="password" autocomplete="off"/>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <button class="btn btn-block btn-login" id="loginbutton">Login</button>
+            </div>
+        </div>
+{% csrf_token %}
+    </form>
+</div>
+
+<script src="{% static 'login.js' %}"></script>
+</body>
+
+</html>

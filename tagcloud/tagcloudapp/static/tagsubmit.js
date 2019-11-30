@@ -27,31 +27,29 @@ tagsubmit.onclick = () => {
     let val = tagify.value;
     let subid = subselect.value;
     if (projectselect.value == "select" || wpsselect.value == "select" || subselect.value == "select") {
-        alert("Bitte wählen Sie alle Felder aus");
+        infoModal("Bitte wählen Sie alle Felder aus");
     } else if (Object.keys(val).length === 0) {
-        alert("Bitte geben Sie einen Tag ein");
+        infoModal("Bitte geben Sie einen Tag ein");
     } else {
         generalAJAX(JSON.stringify({ "tags": val, "subid": subid }), "tagsubmit")
         .then((data) => {
-            console.log(data);
             projectselect.selectedIndex = 0;
             resetWPandSub();
             tagify.removeAllTags();
-            successToast();
+            successModal();
         })
         .catch((data) => {
             console.log(data);
             projectselect.selectedIndex = 0;
             resetWPandSub();
             tagify.removeAllTags();
-            errorToast();
+            errorModal();
         })
     }
 }
 
-function successToast() {
+function successModal() {
     Swal.fire({
-        toast: false,
         title: 'Vielen Dank!',
         text: 'Ihre Daten wurden erfolgreich gespeichert',
         icon: 'success',
@@ -61,14 +59,24 @@ function successToast() {
         })
 }
 
-function errorToast() {
+function errorModal() {
     Swal.fire({
-        toast: false,
         title: 'Scheisse',
         text: 'Etwas ist schief gelaufen.',
         icon: 'error',
         timer: '3500',
         timerProgressBar: false,
         showConfirmButton: false
+        })
+}
+
+function infoModal(alerttext) {
+    Swal.fire({
+        toast: false,
+        title: 'Fehlende Daten',
+        text: alerttext,
+        icon: 'info',
+        timerProgressBar: false,
+        showConfirmButton: true
         })
 }

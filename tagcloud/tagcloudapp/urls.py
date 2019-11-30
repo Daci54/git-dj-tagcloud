@@ -11,5 +11,9 @@ urlpatterns = [
 
     # tagsauswerten url and ajax requests
     path("tagcloud", views.tagcloudchart, name="tagcloudchart"),
-    path("tagquery", views.tagquery, name="tagquery")
+    path("tagquery", views.tagquery, name="tagquery"),
+
+    # Login and Logout url
+    path("login", views.loginpage, name="loginpage"),
+    path("test", views.test, name="test")
 ]
