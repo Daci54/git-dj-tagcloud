@@ -43,12 +43,24 @@ class Subject(models.Model):
 class Tag(models.Model):
     tagvalue = models.CharField(max_length=100, null=True)
     tagsize = models.IntegerField(default=1, null=True)
+    created_on = models.DateTimeField(auto_now_add=True)
     subjects = models.ManyToManyField(Subject, related_name='tags', blank=True)
-    # createdby = models.ForeignKey(User, on_delete=models.CASCADE, null=True, blank=True)
-    # submittedby = models.ManyToManyField(User, related_name='tags', blank=True)
+    created_by = models.ForeignKey(User, related_name='tags_created', on_delete=models.CASCADE, null=True, blank=True)
+    usersubmits = models.ManyToManyField(User, related_name='tags_submitted', through='TagSubmitHistory')
         
     class Meta:
         db_table = "tag"
     
     def __str__(self):
         return self.tagvalue
+
+class TagSubmitHistory(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    submitted_on = models.DateTimeField(auto_now_add=True)
+
+    class Meta:
+        db_table = "tagsubmithistory"
+    
+    def __str__(self):
+        return self.id, self.tag.tagvalue, self.user.username, self.submitted_on

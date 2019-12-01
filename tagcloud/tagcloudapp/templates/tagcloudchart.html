@@ -8,7 +8,7 @@
 {% block body %}
 
 <div class="container" name="containerdiv">
-  <div class="mx-auto" name="mx-auto">
+  <div class="test" name="mx-auto">
     <div class="text-center" name="text-center">
       <h1 class="display-4">Tagcloud</h1>
       <div name="selectdiv" class="form-row">
@@ -35,7 +35,9 @@
         <div name="persondiv" class="form-group col-md-3">
           <label for="personselect" class="col-form-label-lg">Person</label>
           <select class="form-control" id="personselect">
-            <option value="">Select</option>
+          {% for person in persons %}
+            <option value="{{ person.id }}">{{ person.username }}</option>
+          {% endfor %}
           </select>
         </div>
       </div>

@@ -1,3 +1,7 @@
+let perselect = document.getElementById('personselect');
+let testop = new Option("Select", "select", true, true);
+perselect.add(testop, 0);
+
 function tagQuery(someid) {
     generalAJAX(someid, "tagquery")
     .then((response) => {
@@ -10,6 +14,7 @@ function tagQuery(someid) {
 }
 
 projectselect.onchange = () => {
+    perselect.selectedIndex = 0;
     if (projectselect.value == "select") {
 
     } else {
@@ -22,6 +27,7 @@ projectselect.onchange = () => {
 }
 
 workpackageselect.onchange = () => {
+    perselect.selectedIndex = 0;
     if (wpsselect.value == "select") {
 
     } else {
@@ -33,10 +39,23 @@ workpackageselect.onchange = () => {
 }
 
 subselect.onchange = () => {
+    perselect.selectedIndex = 0;
     if (subselect.value == "select") {
 
     } else {
     let subid = { 'subid': subselect.value }
     tagQuery(subid);
+    }
+}
+
+perselect.onchange = () => {
+    projectselect.selectedIndex = 0;
+    resetSelElm(wpsselect);
+    resetSelElm(subselect);
+    if (perselect.value == "select") {
+        
+    } else {
+    let uid = { 'uid': perselect.value }
+    tagQuery(uid);
     }
 }

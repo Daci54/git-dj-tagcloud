@@ -3,20 +3,15 @@ from django.db.models import F
 from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirect
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
-from .models import Project, Workpackage, Subject, Tag
+from .models import Project, Workpackage, Subject, Tag, TagSubmitHistory
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
 from django.utils import six 
 
-# Create your views here.
-def queryProject():
-    projects = {
-        "projects": Project.objects.all()
-    }
-    return projects
 
 def selectSerializer(collection):
     somelist = []
@@ -50,35 +45,43 @@ def selectquery(request):
 
 @login_required
 def tagserfassen(request):
-    return render(request, "tagserfassen.html", queryProject())
+    return render(request, "tagserfassen.html", {"projects": Project.objects.all()})
 
 @login_required
 @require_http_methods(["POST"])
 def tagsubmit(request):
+    user = request.user
     submitdata = json.loads(request.body)
     sub = Subject.objects.get(id=submitdata['subid'])
     for x in submitdata['tags']:
         if 'id' in x:
             Tag.objects.filter(id=x['id']).update(tagsize=F('tagsize')+1)
+            tag = Tag.objects.get(id=x['id'])
+            # TagSubmitHistory.objects.create(tag=tag, user=user)
+            tag.usersubmits.add(user)
+            sub.tags.add(tag)
         else: 
-            tag = Tag.objects.create(tagvalue=x['value'])
-            sub.tag.add(tag)
+            tag = Tag.objects.create(tagvalue=x['value'], created_by=user)
+            tag.usersubmits.add(user)
+            sub.tags.add(tag)
     return HttpResponse("Submit Successful")
 
 @login_required
 def tagcloudchart(request):
-    return render(request, "tagcloudchart.html", queryProject())
+    return render(request, "tagcloudchart.html", {'projects': Project.objects.all(), 'persons': User.objects.all()})
 
 @login_required
 @require_http_methods(["POST"])
 def tagquery(request):
     data = request.POST
     if 'prid' in data:
-        tags = Tag.objects.filter(subjects__workpackage__project=data.get('prid'))
+        tags = Tag.objects.filter(subjects__workpackage__project=data.get('prid')).distinct()
     elif 'wpid' in data:
-        tags = Tag.objects.filter(subjects__workpackage=data.get('wpid'))
+        tags = Tag.objects.filter(subjects__workpackage=data.get('wpid')).distinct()
     elif 'subid' in data:
         tags = Tag.objects.filter(subjects=data.get('subid'))
+    elif 'uid' in data:
+        tags = User.objects.get(id=data.get('uid')).tags_submitted.all()
     else:
         tags = Tag.objects.filter(tagvalue__icontains=data['taginput']).order_by('tagvalue')
     return JsonResponse ({'tags': tagSerializer(tags)})
