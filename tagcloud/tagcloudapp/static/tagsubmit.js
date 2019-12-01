@@ -16,11 +16,32 @@ function onInput( e ){
   tagify.settings.whitelist.length = 0; // reset the whitelist
 
   let taginput = {'taginput': value};
-  generalAJAX(JSON.stringify(taginput), "tagquery")
-  .then((data) => {
-      tagify.settings.whitelist = data.tags;
+  generalAJAX(taginput, "tagquery")
+  .then((response) => {
+      tagify.settings.whitelist = response.tags;
       tagify.dropdown.show.call(tagify, value);
   })
+}
+
+projectselect.onchange = () => {
+    if (projectselect.value == "select") {
+
+    } else {
+    resetSelElm(wpsselect);
+    resetSelElm(subselect);
+    let prid = { "prid": projectselect.value }
+    selectQuery(prid, wpsselect);
+    }
+}
+
+workpackageselect.onchange = () => {
+    if (wpsselect.value == "select") {
+
+    } else {
+    resetSelElm(subselect);
+    let wpid = { 'wpid': wpsselect.value }
+    selectQuery(wpid, subselect);
+    }
 }
 
 tagsubmit.onclick = () => {
@@ -32,16 +53,19 @@ tagsubmit.onclick = () => {
         infoModal("Bitte geben Sie einen Tag ein");
     } else {
         generalAJAX(JSON.stringify({ "tags": val, "subid": subid }), "tagsubmit")
-        .then((data) => {
+        .then((response) => {
+            console.log(response);
             projectselect.selectedIndex = 0;
-            resetWPandSub();
+            resetSelElm(wpsselect);
+            resetSelElm(subselect);
             tagify.removeAllTags();
             successModal();
         })
-        .catch((data) => {
-            console.log(data);
+        .catch((response) => {
+            console.log(response);
             projectselect.selectedIndex = 0;
-            resetWPandSub();
+            resetSelElm(wpsselect);
+            resetSelElm(subselect);
             tagify.removeAllTags();
             errorModal();
         })

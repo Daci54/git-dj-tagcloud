@@ -5,9 +5,7 @@ from .import views
 urlpatterns = [
     # tagserfassen url and ajax requests
     path("", views.tagserfassen, name="tagserfassen"),
-    path("projectselect", views.projectselect, name="projectselect"),
-    path("wpselect", views.wpselect, name="wpselect"),
-    path("tagsubmit", views.tagsubmit, name="tagsubmit"),
+    path("tagsubmit", views.tagsubmit, name="tagsubmit"), 
 
     # tagsauswerten url and ajax requests
     path("tagcloud", views.tagcloudchart, name="tagcloudchart"),
@@ -15,5 +13,8 @@ urlpatterns = [
 
     # Login and Logout url
     path("login", views.loginpage, name="loginpage"),
-    path("test", views.test, name="test")
+    path("userlogin", views.userLogin, name="userlogin"),
+    path("userlogout", views.userLogout, name="userlogout"),
+
+    path("selectquery", views.selectquery, name="selectquery")
 ]

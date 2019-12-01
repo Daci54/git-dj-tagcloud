@@ -12,7 +12,7 @@
     <div class="text-center" name="text-center">
       <h1 class="display-4">Tagcloud</h1>
       <div name="selectdiv" class="form-row">
-        <div name="projectdiv" class="form-group col-md-4">
+        <div name="projectdiv" class="form-group col-md-3">
           <label for="projectselect" class="col-form-label-lg">Projekt</label>
           <select class="form-control" id="projectselect">
           {% for project in projects %}
@@ -20,15 +20,21 @@
           {% endfor %}
           </select>
         </div>
-        <div name="workpackagediv" class="form-group col-md-4">
+        <div name="workpackagediv" class="form-group col-md-3">
           <label for="workpackageselect" class="col-form-label-lg">Arbeitspaket</label>
           <select class="form-control" id="workpackageselect">
             <option value="">Select</option>
           </select>
         </div>
-        <div name="subjectdiv" class="form-group col-md-4">
+        <div name="subjectdiv" class="form-group col-md-3">
           <label for="subjectselect" class="col-form-label-lg">Thema</label>
           <select class="form-control" id="subjectselect">
+            <option value="">Select</option>
+          </select>
+        </div>
+        <div name="persondiv" class="form-group col-md-3">
+          <label for="personselect" class="col-form-label-lg">Person</label>
+          <select class="form-control" id="personselect">
             <option value="">Select</option>
           </select>
         </div>
@@ -38,9 +44,13 @@
     </div>
   </div>
 </div>
+{% endblock %}
+
+{% block scripts %}
 <script src="{% static '/amcharts4/core/core.js' %}"></script>
 <script src="{% static '/amcharts4/charts/charts.js' %}"></script>
 <script src="{% static '/amcharts4/themes/animated.js' %}"></script>
 <script src="{% static '/amcharts4/plugins/wordCloud.js' %}"></script>
 <script src="{% static 'tagcloudchart.js' %}"></script>
+<script src="{% static 'tagcloud.js' %}"></script>
 {% endblock %}

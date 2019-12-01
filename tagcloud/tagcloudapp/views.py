@@ -4,10 +4,12 @@ from django.http import HttpResponse, JsonResponse, Http404, HttpResponseRedirec
 from django.core.serializers import serialize
 from django.shortcuts import render, redirect
 from .models import Project, Workpackage, Subject, Tag
-from django.contrib.auth import authenticate, login
+from django.contrib import messages
+from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.urls import reverse
 from django.views.decorators.http import require_http_methods
+from django.utils import six 
 
 # Create your views here.
 def queryProject():
@@ -16,44 +18,46 @@ def queryProject():
     }
     return projects
 
+def selectSerializer(collection):
+    somelist = []
+    for something in collection:
+        somedict = {
+            'id': something.id,
+            'name': something.name
+        }
+        somelist.append(somedict)
+    return somelist
+
+def tagSerializer(tags):
+    tlist = []
+    for tag in tags:
+        tagsdict = {
+            'id': tag.id,
+            'value': tag.tagvalue,
+            'tagsize': tag.tagsize
+        }
+        tlist.append(tagsdict)
+    return tlist
+
+def selectquery(request):
+    selid = request.POST
+    if 'prid' in selid:
+        wp = Workpackage.objects.filter(project=selid.get('prid'))
+        return JsonResponse({'selval': selectSerializer(wp)})
+    else:
+        sub = Subject.objects.filter(workpackage=selid.get('wpid'))
+        return JsonResponse({'selval': selectSerializer(sub)})
+
 @login_required
 def tagserfassen(request):
     return render(request, "tagserfassen.html", queryProject())
 
 @login_required
 @require_http_methods(["POST"])
-def projectselect(request):
-    wplist = []
-    prid = json.loads(request.body)
-    wp = Workpackage.objects.filter(project=prid['prid'])
-    for x in wp:
-        wpdict = {
-            'id': x.id,
-            'name': x.name
-        }
-        wplist.append(wpdict)
-    return JsonResponse({'wps' : wplist})
-
-@login_required
-@require_http_methods(["POST"])
-def wpselect(request):
-    sublist = []
-    wpid = json.loads(request.body)
-    sub = Subject.objects.filter(workpackage=wpid['wpid'])
-    for x in sub:
-        subdict = {
-            'id': x.id,
-            'name': x.name
-        }
-        sublist.append(subdict)
-    return JsonResponse({'subs' : sublist})
-
-@login_required
-@require_http_methods(["POST"])
 def tagsubmit(request):
-    data = json.loads(request.body)
-    sub = Subject.objects.get(id=data['subid'])
-    for x in data['tags']:
+    submitdata = json.loads(request.body)
+    sub = Subject.objects.get(id=submitdata['subid'])
+    for x in submitdata['tags']:
         if 'id' in x:
             Tag.objects.filter(id=x['id']).update(tagsize=F('tagsize')+1)
         else: 
@@ -65,30 +69,19 @@ def tagsubmit(request):
 def tagcloudchart(request):
     return render(request, "tagcloudchart.html", queryProject())
 
-def tagfunction(tags):
-    tlist = []
-    for tag in tags:
-        tagsdict = {
-            'id': tag.id,
-            'value': tag.tagvalue,
-            'tagsize': tag.tagsize
-        }
-        tlist.append(tagsdict)
-    return tlist
-
 @login_required
 @require_http_methods(["POST"])
 def tagquery(request):
-    data = json.loads(request.body)
+    data = request.POST
     if 'prid' in data:
-        tags = Tag.objects.filter(subjects__workpackage__project=data['prid'])
+        tags = Tag.objects.filter(subjects__workpackage__project=data.get('prid'))
     elif 'wpid' in data:
-        tags = Tag.objects.filter(subjects__workpackage=data['wpid'])
+        tags = Tag.objects.filter(subjects__workpackage=data.get('wpid'))
     elif 'subid' in data:
-        tags = Tag.objects.filter(subjects=data['subid'])
+        tags = Tag.objects.filter(subjects=data.get('subid'))
     else:
         tags = Tag.objects.filter(tagvalue__icontains=data['taginput']).order_by('tagvalue')
-    return JsonResponse ({'tags': tagfunction(tags)})
+    return JsonResponse ({'tags': tagSerializer(tags)})
 
 @require_http_methods(["GET"])
 def loginpage(request):
@@ -96,16 +89,19 @@ def loginpage(request):
         return redirect("/")
     return render(request, "registration/login.html")
 
-@login_required
 @require_http_methods(["POST"])
-def test(request):
-    if request.method == "POST":
-        uname = request.POST.get('username')
-        pword = request.POST.get('password')
-        user = authenticate(request, username=uname, password=pword)
-        if user.is_authenticated:
-            login(request, user)
-            redirect_url = reverse('tagserfassen')
-            return JsonResponse({'url':redirect_url})
-        raise PermissionError
+def userLogin(request):
+    uname = request.POST.get('username')
+    pword = request.POST.get('password')
+    user = authenticate(request, username=uname, password=pword)
+    if user is not None:
+        login(request, user)
+    messages.error(request, "Bitte überprüfen Sie Ihre eingaben.")
+    return redirect('loginpage')
+
+def userLogout(request):
+    logout(request)
+    storage = messages.get_messages(request)
+    storage.used = True
+    messages.success(request, "Sie wurden erfolgreich ausgeloggt")
     return redirect('loginpage')

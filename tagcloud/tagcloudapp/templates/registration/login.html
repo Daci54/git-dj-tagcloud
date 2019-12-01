@@ -31,37 +31,53 @@
 </head>
 
 <body>
-
+<script>
+    window.setTimeout(function() {
+        $(".alert").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove(); 
+        });
+    }, 3000);
+</script>
 <nav class="navbar navbar-expand-sm navbar-dark bg-dark">
   <a class="navbar-brand" href="#">Tagcloud im Projektmanagement</a>
 </nav>
 
 <div class="simple-login-container">
-    <h2>Login Form</h2>
-<form method="POST" id="loginform" action="/test">
+<h1 class="h3 mb-3 font-weight-normal">Login</h1>
+    <form method="POST" id="loginform" action="/userlogin">
         <div class="row">
             <div class="col-md-12 form-group">
-                <input type="text" class="form-control" placeholder="Username" id="username" name="username" autocomplete="off"/>
-                <div class="valid-feedback">
-                    Looks good!
+                <input type="text" class="form-control" placeholder="Username" id="username" name="username" autocomplete="off" required>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-12 form-group">
+                <input type="password" placeholder="Passwort" class="form-control" id="password" name="password" autocomplete="off" required>
+            </div>
+        </div>
+        {% if messages %}
+        {% for message in messages %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+                <div class="alert alert-success" role="alert">
+                {{ message }}
                 </div>
-            </div>
-        </div>
+            {% endif %}
+            {% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR %}
+                <div class="alert alert-danger" role="alert">
+                {{ message }}
+                </div>
+            {% endif %}
+        {% endfor %}
+        {% endif %}
         <div class="row">
             <div class="col-md-12 form-group">
-                <input type="password" placeholder="Passwort" class="form-control" id="password" name="password" autocomplete="off"/>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-12 form-group">
-                <button class="btn btn-block btn-login" id="loginbutton">Login</button>
+                <button type="submit" class="btn btn-block btn-login" id="loginbutton">Login</button>
             </div>
         </div>
 {% csrf_token %}
     </form>
 </div>
 
-<script src="{% static 'login.js' %}"></script>
 </body>
 
 </html>
