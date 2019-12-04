@@ -1,27 +1,9 @@
+let projectselect = document.getElementById('projectselect');
+let wpsselect = document.getElementById('workpackageselect');
+let subselect = document.getElementById('subjectselect');
 let input = document.getElementById('taginput');
 let tagsubmit = document.getElementById('tagsubmit');
-
-let tagify = new Tagify(taginput, {
-    whitelist: [],
-    dropdown : {
-        enabled   : 1,
-        maxItems  : 20
-    }
-});
-
-tagify.on('input', onInput)
-
-function onInput( e ){
-  let value = e.detail.value;
-  tagify.settings.whitelist.length = 0; // reset the whitelist
-
-  let taginput = {'taginput': value};
-  generalAJAX(taginput, "tagquery")
-  .then((response) => {
-      tagify.settings.whitelist = response.tags;
-      tagify.dropdown.show.call(tagify, value);
-  })
-}
+projectselect.add(createOption("Select", "select"), 0);
 
 projectselect.onchange = () => {
     if (projectselect.value == "select") {

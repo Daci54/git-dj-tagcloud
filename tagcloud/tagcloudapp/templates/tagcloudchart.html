@@ -2,13 +2,13 @@
 
 {% load static %}
 {% block head %}
-<link rel="stylesheet" href="{% static 'tagcloudchart.css' %}">
+<link rel="stylesheet" href="{% static 'charts.css' %}">
 {% endblock %}
 
 {% block body %}
 
 <div class="container" name="containerdiv">
-  <div class="test" name="mx-auto">
+  <div class="allbodyelements" name="mx-auto">
     <div class="text-center" name="text-center">
       <h1 class="display-4">Tagcloud</h1>
       <div name="selectdiv" class="form-row">
@@ -49,10 +49,10 @@
 {% endblock %}
 
 {% block scripts %}
+<script src="{% static 'tagcloud.js' %}"></script>
 <script src="{% static '/amcharts4/core/core.js' %}"></script>
 <script src="{% static '/amcharts4/charts/charts.js' %}"></script>
 <script src="{% static '/amcharts4/themes/animated.js' %}"></script>
 <script src="{% static '/amcharts4/plugins/wordCloud.js' %}"></script>
 <script src="{% static 'tagcloudchart.js' %}"></script>
-<script src="{% static 'tagcloud.js' %}"></script>
 {% endblock %}

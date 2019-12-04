@@ -1,9 +1,9 @@
-let projectselect = document.getElementById('projectselect');
-let newop = new Option("Select", "select", true, true);
-projectselect.add(newop, 0);
-let wpsselect = document.getElementById('workpackageselect');
-let subselect = document.getElementById('subjectselect');
 let token = $("input[name=csrfmiddlewaretoken]").val();
+
+function createOption(text, value) {
+    let newoption = new Option(text, value, true, true);
+    return newoption;
+}
 
 $.ajaxSetup({
     beforeSend: function(xhr) {

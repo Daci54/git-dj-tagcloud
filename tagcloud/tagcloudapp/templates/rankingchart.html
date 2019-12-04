@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'charts.css' %}">
+{% endblock %}
+
+{% block body %}
+
+<div class="container" name="containerdiv">
+  <div class="allbodyelements" name="mx-auto">
+    <div class="text-center" name="text-center">
+      <h1 class="display-4">Ranking</h1>
+      <div name="selectdiv" class="form-row">
+        <div name="persondiv" class="form-group col-md-6">
+          <label for="personselect" class="col-form-label-lg">Person</label>
+          <select class="form-control" id="personselect">
+          {% for person in persons %}
+            <option value="{{ person.id }}">{{ person.username }}</option>
+          {% endfor %}
+          </select>
+        </div>
+        <div name="workpackagediv" class="form-group col-md-6">
+          <label for="workpackageselect" class="col-form-label-lg">Kategorie</label>
+          <select class="form-control" id="categoryselect">
+            <option value="created">Erstellte Tags</option>
+            <option value="submitted">Eingetragene Tags</option>
+          </select>
+        </div>
+      </div>
+      <div id="chartdiv" name="auswertungdiv" class="col-md-12">
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script src="{% static 'ranking.js' %}"></script>
+<script src="{% static '/amcharts4/core/core.js' %}"></script>
+<script src="{% static '/amcharts4/charts/charts.js' %}"></script>
+<script src="{% static '/amcharts4/themes/animated.js' %}"></script>
+<script src="{% static 'rankingchart.js' %}"></script>
+{% endblock %}

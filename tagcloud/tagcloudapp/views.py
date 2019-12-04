@@ -34,6 +34,8 @@ def tagSerializer(tags):
         tlist.append(tagsdict)
     return tlist
 
+@login_required
+@require_http_methods(["POST"])
 def selectquery(request):
     selid = request.POST
     if 'prid' in selid:
@@ -60,7 +62,7 @@ def tagsubmit(request):
             # TagSubmitHistory.objects.create(tag=tag, user=user)
             tag.usersubmits.add(user)
             sub.tags.add(tag)
-        else: 
+        else:
             tag = Tag.objects.create(tagvalue=x['value'], created_by=user)
             tag.usersubmits.add(user)
             sub.tags.add(tag)
@@ -69,6 +71,54 @@ def tagsubmit(request):
 @login_required
 def tagcloudchart(request):
     return render(request, "tagcloudchart.html", {'projects': Project.objects.all(), 'persons': User.objects.all()})
+
+@login_required
+def rankingchart(request):
+    return render(request, "rankingchart.html", {'persons': User.objects.all()})
+
+@login_required
+@require_http_methods(["POST"])
+def tagcountcreatedquery(request):
+    tclist = []
+    uid = request.POST.get('uid')
+    if uid == "all":
+        users = User.objects.all()
+        for u in users:
+            tcdict = {
+                'name': u.first_name+" "+u.last_name,
+                'tagcount': Tag.objects.filter(created_by=u.id).count()
+            }
+            tclist.append(tcdict)
+    else:
+        u = User.objects.get(id=uid)
+        tcdict = {
+            'name': u.first_name+" "+u.last_name,
+            'tagcount': Tag.objects.filter(created_by=uid).count()
+        }
+        tclist.append(tcdict)
+    return JsonResponse({'tagcount': tclist})
+
+@login_required
+@require_http_methods(["POST"])
+def tagcountsubmittedquery(request):
+    tclist = []
+    uid = request.POST.get('uid')
+    if uid == "all":
+        users = User.objects.all()
+        for u in users:
+            tcdict = {
+                'name': u.first_name+" "+u.last_name,
+                'tagcount': u.tags_submitted.all().count()
+            }
+            tclist.append(tcdict)
+    else:
+        u = User.objects.get(id=uid)
+        tcdict = {
+            'name': u.first_name+" "+u.last_name,
+            'tagcount': u.tags_submitted.all().count()
+        }
+        tclist.append(tcdict)
+    return JsonResponse({'tagcount': tclist})
 
 @login_required
 @require_http_methods(["POST"])
@@ -90,7 +140,8 @@ def tagquery(request):
 def loginpage(request):
     if request.user.is_authenticated:
         return redirect("/")
-    return render(request, "registration/login.html")
+    else:
+        return render(request, "registration/login.html")
 
 @require_http_methods(["POST"])
 def userLogin(request):
@@ -99,7 +150,9 @@ def userLogin(request):
     user = authenticate(request, username=uname, password=pword)
     if user is not None:
         login(request, user)
-    messages.error(request, "Bitte überprüfen Sie Ihre eingaben.")
+        request.session.set_expiry(10)
+    else:
+        messages.error(request, "Bitte überprüfen Sie Ihre eingaben.")
     return redirect('loginpage')
 
 def userLogout(request):
