@@ -4,9 +4,9 @@ from django.contrib.auth.models import User
 # Create your models here.
 class Project(models.Model):
     name = models.CharField(max_length=45)
-    descr = models.CharField(max_length=400, null=True)
-    start = models.DateTimeField(null=True, blank=True)
-    end = models.DateTimeField(null=True, blank=True)
+    descr = models.CharField(max_length=400, null=True, blank=True)
+    start = models.DateField(null=True, blank=True)
+    end = models.DateField(null=True, blank=True)
 
     class Meta:
         db_table = "project"
@@ -16,9 +16,9 @@ class Project(models.Model):
 
 class Workpackage(models.Model):
     name = models.CharField(max_length=45)
-    descr = models.CharField(max_length=400, null=True)
-    start = models.DateTimeField(null=True, blank=True)
-    end = models.DateTimeField(null=True, blank=True)
+    descr = models.CharField(max_length=400, null=True, blank=True)
+    start = models.DateField(null=True, blank=True)
+    end = models.DateField(null=True, blank=True)
     project = models.ForeignKey(Project, on_delete=models.CASCADE, null=True)
     
     class Meta:
@@ -32,7 +32,9 @@ class Subject(models.Model):
     descr = models.CharField(max_length=400, null=True, blank=True)
     start = models.DateField(null=True, blank=True)
     end = models.DateField(null=True, blank=True)
+    tags = models.ManyToManyField('Tag', related_name='subjects', through="SubjectTags", blank=True)
     workpackage = models.ForeignKey(Workpackage, on_delete=models.CASCADE, null=True)
+
      
     class Meta:
         db_table = "subject"
@@ -44,7 +46,6 @@ class Tag(models.Model):
     tagvalue = models.CharField(max_length=100, null=True)
     tagsize = models.IntegerField(default=1, null=True)
     created_on = models.DateTimeField(auto_now_add=True)
-    subjects = models.ManyToManyField(Subject, related_name='tags', blank=True)
     created_by = models.ForeignKey(User, related_name='tags_created', on_delete=models.CASCADE, null=True, blank=True)
     usersubmits = models.ManyToManyField(User, related_name='tags_submitted', through='TagSubmitHistory')
         
@@ -60,7 +61,19 @@ class TagSubmitHistory(models.Model):
     submitted_on = models.DateTimeField(auto_now_add=True)
 
     class Meta:
-        db_table = "tagsubmithistory"
+        verbose_name_plural = 'Tag Submit History'
+        db_table = "tag_submit_history"
     
     def __str__(self):
-        return self.id, self.tag.tagvalue, self.user.username, self.submitted_on
+        return self.tag.tagvalue+" "+self.user.first_name
+
+class SubjectTags(models.Model):
+    tag = models.ForeignKey(Tag, on_delete=models.CASCADE)
+    subject = models.ForeignKey(Subject, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name_plural = 'Subjects and Tags'
+        db_table = "subjects_tags"
+    
+    def __str__(self):
+        return self.tag.tagvalue+" "+self.subject.name

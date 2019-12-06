@@ -9,10 +9,10 @@ projectselect.onchange = () => {
     if (projectselect.value == "select") {
 
     } else {
-    resetSelElm(wpsselect);
-    resetSelElm(subselect);
-    let prid = { "prid": projectselect.value }
-    selectQuery(prid, wpsselect);
+        resetSelElm(wpsselect);
+        resetSelElm(subselect);
+        let prid = { "prid": projectselect.value }
+        selectQuery(prid, wpsselect);
     }
 }
 
@@ -20,9 +20,9 @@ workpackageselect.onchange = () => {
     if (wpsselect.value == "select") {
 
     } else {
-    resetSelElm(subselect);
-    let wpid = { 'wpid': wpsselect.value }
-    selectQuery(wpid, subselect);
+        resetSelElm(subselect);
+        let wpid = { 'wpid': wpsselect.value }
+        selectQuery(wpid, subselect);
     }
 }
 

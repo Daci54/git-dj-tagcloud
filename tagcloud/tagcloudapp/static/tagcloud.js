@@ -3,6 +3,7 @@ let wpsselect = document.getElementById('workpackageselect');
 let subselect = document.getElementById('subjectselect');
 let perselect = document.getElementById('personselect');
 projectselect.add(createOption("Select", "select"), 0);
+perselect.add(createOption("Alle", "all"), 0);
 perselect.add(createOption("Select", "select"), 0);
 
 function tagQuery(someid) {
@@ -23,11 +24,11 @@ projectselect.onchange = () => {
         resetSelElm(wpsselect);
         resetSelElm(subselect);
     } else {
-    resetSelElm(wpsselect);
-    resetSelElm(subselect);
-    let prid = { "prid": projectselect.value }
-    selectQuery(prid, wpsselect);
-    tagQuery(prid);
+        resetSelElm(wpsselect);
+        resetSelElm(subselect);
+        let prid = { "prid": projectselect.value }
+        selectQuery(prid, wpsselect);
+        tagQuery(prid);
     }
 }
 
@@ -37,10 +38,10 @@ workpackageselect.onchange = () => {
         tagreplacer(0);
         resetSelElm(subselect);
     } else {
-    resetSelElm(subselect);
-    let wpid = { 'wpid': wpsselect.value }
-    selectQuery(wpid, subselect);
-    tagQuery(wpid);
+        resetSelElm(subselect);
+        let wpid = { 'wpid': wpsselect.value }
+        selectQuery(wpid, subselect);
+        tagQuery(wpid);
     }
 }
 
@@ -49,8 +50,8 @@ subselect.onchange = () => {
     if (subselect.value == "select") {
         tagreplacer(0);
     } else {
-    let subid = { 'subid': subselect.value }
-    tagQuery(subid);
+        let subid = { 'subid': subselect.value }
+        tagQuery(subid);
     }
 }
 
@@ -61,7 +62,7 @@ perselect.onchange = () => {
     if (perselect.value == "select") {
         tagreplacer(0);
     } else {
-    let uid = { 'uid': perselect.value }
-    tagQuery(uid);
+        let uid = { 'uid': perselect.value }
+        tagQuery(uid);
     }
 }

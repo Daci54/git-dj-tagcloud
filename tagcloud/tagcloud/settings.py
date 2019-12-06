@@ -77,7 +77,7 @@ WSGI_APPLICATION = 'tagcloud.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'dbtest.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'db_tagcloud.sqlite3'),
     }
 }
 

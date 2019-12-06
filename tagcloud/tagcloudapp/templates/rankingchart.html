@@ -16,12 +16,12 @@
           <label for="personselect" class="col-form-label-lg">Person</label>
           <select class="form-control" id="personselect">
           {% for person in persons %}
-            <option value="{{ person.id }}">{{ person.username }}</option>
+            <option value="{{ person.id }}">{{ person.first_name }} {{ person.last_name }}</option>
           {% endfor %}
           </select>
         </div>
-        <div name="workpackagediv" class="form-group col-md-6">
-          <label for="workpackageselect" class="col-form-label-lg">Kategorie</label>
+        <div name="categorydiv" class="form-group col-md-6">
+          <label for="categoryselect" class="col-form-label-lg">Kategorie</label>
           <select class="form-control" id="categoryselect">
             <option value="created">Erstellte Tags</option>
             <option value="submitted">Eingetragene Tags</option>

@@ -59,7 +59,6 @@ def tagsubmit(request):
         if 'id' in x:
             Tag.objects.filter(id=x['id']).update(tagsize=F('tagsize')+1)
             tag = Tag.objects.get(id=x['id'])
-            # TagSubmitHistory.objects.create(tag=tag, user=user)
             tag.usersubmits.add(user)
             sub.tags.add(tag)
         else:
@@ -131,7 +130,10 @@ def tagquery(request):
     elif 'subid' in data:
         tags = Tag.objects.filter(subjects=data.get('subid'))
     elif 'uid' in data:
-        tags = User.objects.get(id=data.get('uid')).tags_submitted.all()
+        if 'all' in data.get('uid'):
+            tags = Tag.objects.all()
+        else:
+            tags = User.objects.get(id=data.get('uid')).tags_submitted.all()
     else:
         tags = Tag.objects.filter(tagvalue__icontains=data['taginput']).order_by('tagvalue')
     return JsonResponse ({'tags': tagSerializer(tags)})
