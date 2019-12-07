@@ -154,7 +154,7 @@ def userLogin(request):
         login(request, user)
         request.session.set_expiry(1800)
     else:
-        messages.error(request, "Bitte überprüfen Sie Ihre eingaben.")
+        messages.error(request, "Login fehlgeschlagen: Bitte überprüfen Sie Ihre Eingaben.")
     return redirect('loginpage')
 
 def userLogout(request):
