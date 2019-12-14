@@ -152,7 +152,6 @@ def userLogin(request):
     user = authenticate(request, username=uname, password=pword)
     if user is not None:
         login(request, user)
-        request.session.set_expiry(1800)
     else:
         messages.error(request, "Login fehlgeschlagen: Bitte überprüfen Sie Ihre Eingaben.")
     return redirect('loginpage')
