@@ -151,7 +151,7 @@ def userLogin(request):
     pword = request.POST.get('password')
     user = authenticate(request, username=uname, password=pword)
     if user is not None:
-        login(request, user)
+        login(request, user) #Test
     else:
         messages.error(request, "Login fehlgeschlagen: Bitte überprüfen Sie Ihre Eingaben.")
     return redirect('loginpage')
