@@ -18,10 +18,8 @@ series.data;
 
 series.colors = new am4core.ColorSet();
 
-
 series.dataFields.word = "value";
 series.dataFields.value = "tagsize";
-
 
 series.heatRules.push({
  "target": series.labels.template,
@@ -31,8 +29,6 @@ series.heatRules.push({
  "dataField": "value"
 });
 
-// series.labels.template.url = "https://stackoverflow.com/questions/tagged/{word}";
-// series.labels.template.urlTarget = "_blank";
 series.labels.template.tooltipText = "{word}: Gewichtung {value}";
 
 let hoverState = series.labels.template.states.create("hover");

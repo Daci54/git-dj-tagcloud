@@ -67,7 +67,7 @@ function successModal() {
 
 function errorModal() {
     Swal.fire({
-        title: 'Scheisse',
+        title: 'Oops!',
         text: 'Etwas ist schief gelaufen.',
         icon: 'error',
         timer: '3500',

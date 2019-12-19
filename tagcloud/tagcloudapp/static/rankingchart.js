@@ -27,7 +27,7 @@ let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
 categoryAxis.dataFields.category = "name";
 categoryAxis.renderer.grid.template.disabled = true;
 categoryAxis.renderer.minGridDistance = 30;
-categoryAxis.renderer.inside = true;
+categoryAxis.renderer.inside = false;
 categoryAxis.renderer.labels.template.fill = am4core.color("#fff");
 categoryAxis.renderer.labels.template.fontSize = 20;
 

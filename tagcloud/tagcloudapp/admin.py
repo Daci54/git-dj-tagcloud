@@ -55,7 +55,6 @@ class TSHAdmin(admin.ModelAdmin):
     
     first_name_and_last_name.short_description = "User"
     first_name_and_last_name.admin_order_field = 'user'
-    first_name_and_last_name.admin_filter_field = 'user'
 
 class SubjectsTagsAdmin(admin.ModelAdmin):
     list_display = ('id','tag','subject')
